@@ -19,7 +19,7 @@ server.listen(8080, function() {
 
  const wsServer = new WebSocketServer({
     httpServer: server,
-    autoAcceptConnections: true
+    autoAcceptConnections: false
 });
 
 function originIsAllowed(origin: string) {
@@ -52,6 +52,7 @@ wsServer.on('request', function(request) {
 });
 
 function messageHandler(ws: connection, message: IncomingMessage) {
+    console.log("Incoming message: "+ JSON.stringify(message));
     if (message.type == SupportedMessage.JoinRoom) {
         const payload = message.payload;
         userManager.addUser(payload.name, payload.userId, payload.roomId, ws);
